@@ -1,41 +1,67 @@
 <?php
-header('Content-Type: text/plain; charset=utf-8');
+//header('Content-Type: text/html; charset=windows-1251');
+/*$text = "Определение функции начинается с ключевого слова function, за которым следует имя функции. Имя функции должно начинаться с алфавитного символа или подчеркивания, за которыми может следовать любое количество алфавитно-цифровых символов или символов подчеркивания.";
+$template = "/[^a-zа-я_]+/";
 
-$TEXT = "Techniques which are used to win customers include coupons, samples, money back, competitions etc. Many of these techniques are over a hundred years old. 
-New promotion techniques are not often developed and, even when they are, there is always a risk that they will not please customers. So why do companies still 
-try to develop new promotion techniques? The answer is because companies which do develop a successful 
-new promotion can win many customers because they are the first to use the technique.
-The oil company Shell invented a new вЂmatching-halfвЂ™ promotion called вЂMake Money*. Each time 
-people bought a Shell product they were given half of a bank note. If they got the other half of the note they could get the money for the two halves. So for example, if they 
-got two halves of a 500 soum note, they could get 500 soum in cash in the Shell shop. The competition was very successful because it was simple, it was easy to win and people 
-liked getting cash immediately. Shell liked it because it could control the amount of money it had to pay. It printed a limited number of matching halves. вЂMake MoneyвЂ™ was a 
-very successful promotion and paid for itself many times over. It helped Shell to increase its sales by 50% over a ten week period. When the promotion was over, sales remained
- high for several This was because some motorists who had changed to buy Shell products during the promotion continued to buy them after the promotion ended.";
-$template = "/[^a-zР°-СЏ_]+/";
-
-// translation to lower case
-$text_l = mb_strtolower($TEXT);
-$words = preg_split($template, $text_l, -1, PREG_SPLIT_NO_EMPTY);
-
-$arr = array();
-foreach($words as $word) {
-    // check the presence of a word in the array
-    if (array_key_exists($word, $arr)) {
-        $arr[$word]++;
-    } else {
-        // save the new word
-        $arr[$word] = 1;
+//получаем список слов
+$arrWords = getWords($text, $template);
+// выводим слова на печать
+printWords($arrWords);
+*/
+// запись слов в файл
+function writeWordsToFile($file, $arrWords) {
+    if ((count($arrWords) > 0) && ($file != FALSE)) {
+        fwrite($file, "Слова введенные в поле ввода текста\n");
+        fwrite($file, "___________________________________\n");
+        // words print
+        foreach($arrWords as $key => $value) {
+            $format = "%15s => %d".PHP_EOL;
+            $str = sprintf($format, $key, $value);
+            fwrite($file, $str);
+        }
     }
 }
-echo "Original string".PHP_EOL.$TEXT.PHP_EOL;
-echo "Number of unique words in the text - ".count($arr).PHP_EOL;
-if (count($arr) > 0) {
-    // words print
-	echo "\nWORDS".PHP_EOL;
-	echo "______________________".PHP_EOL;
-    foreach($arr as $key => $value) {
-	$format = "%15s => %d".PHP_EOL;
-	echo sprintf($format, $key, $value);
+// распечатка слов
+function printWords($arrWords) {
+    if (count($arrWords) > 0) {
+        // words print
+        foreach($arrWords as $key => $value) {
+        $format = "%15s => %d <br>";
+        echo sprintf($format, $key, $value);
+        }
+    }
+}
+
+function getWords($text) {
+    $template = "/[^a-zа-я_]+/";
+    // translation to lower case
+    $text = mb_strtolower(htmlspecialchars($text));
+    $words = preg_split($template, $text, -1, PREG_SPLIT_NO_EMPTY);
+
+    $arr = array();
+    foreach($words as $word) {
+        // check the presence of a word in the array
+        if (array_key_exists($word, $arr)) {
+            $arr[$word]++;
+        } else {
+            // save the new word
+            $arr[$word] = 1;
+        }
+    }
+    return $arr;
+}
+// слияние массивов слов
+// arr1 массив в который добавляют слова
+// arr2 массив для слияния
+function mergeWords(& $arr1, $arr2) {
+    foreach($arr2 as  $key => $value) {
+        // check the presence of a word in the array
+        if (array_key_exists($key, $arr1)) {
+            $arr1[$key] += $value;
+        } else {
+            // save the new word
+            $arr1[$key] = $value;
+        }
     }
 }
 ?>
