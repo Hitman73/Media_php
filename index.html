@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    </head>
+    <body>
+        <h1 style="text-align: center;"><strong>Домашнее задание №2</strong></h1><p>&nbsp;</p>
+        <form enctype="multipart/form-data" method="POST" action="form.php">
+            <textarea  name = "text" rows = "10" cols = "45">Здесь Вы можете написать текст date для обработки</textarea><br>
+            <!-- Поле MAX_FILE_SIZE должно быть указано до поля загрузки файла -->
+            <input type="hidden" name="MAX_FILE_SIZE" value="300000" />
+            <!-- Название элемента input определяет имя в массиве $_FILES -->
+            Файл для обработки: <input name="userfile" type="file" />
+            <p><input type="submit" value="Обработать" /></p>
+        </form>
+    </body>
+</html>

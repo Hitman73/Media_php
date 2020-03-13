@@ -1,27 +1,17 @@
 <?php
-//header('Content-Type: text/html; charset=windows-1251');
-/*$text = "Определение функции начинается с ключевого слова function, за которым следует имя функции. Имя функции должно начинаться с алфавитного символа или подчеркивания, за которыми может следовать любое количество алфавитно-цифровых символов или символов подчеркивания.";
-$template = "/[^a-zа-я_]+/";
 
-//получаем список слов
-$arrWords = getWords($text, $template);
-// выводим слова на печать
-printWords($arrWords);
-*/
-// запись слов в файл
+// Р·Р°РїРёСЃСЊ СЃР»РѕРІ РІ С„Р°Р№Р»
 function writeWordsToFile($file, $arrWords) {
     if ((count($arrWords) > 0) && ($file != FALSE)) {
-        fwrite($file, "Слова введенные в поле ввода текста\n");
-        fwrite($file, "___________________________________\n");
-        // words print
+		fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+		fputcsv($file, array("РЎР»РѕРІРѕ", "РљРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРІС‚РѕСЂРµРЅРёР№"),";");
+        // words write
         foreach($arrWords as $key => $value) {
-            $format = "%15s => %d".PHP_EOL;
-            $str = sprintf($format, $key, $value);
-            fwrite($file, $str);
+            fputcsv($file, array($key, $value),";");
         }
     }
 }
-// распечатка слов
+// СЂР°СЃРїРµС‡Р°С‚РєР° СЃР»РѕРІ
 function printWords($arrWords) {
     if (count($arrWords) > 0) {
         // words print
@@ -33,7 +23,7 @@ function printWords($arrWords) {
 }
 
 function getWords($text) {
-    $template = "/[^a-zа-я_]+/";
+    $template = "/[^a-zР°-СЏ_]+/u";
     // translation to lower case
     $text = mb_strtolower(htmlspecialchars($text));
     $words = preg_split($template, $text, -1, PREG_SPLIT_NO_EMPTY);
@@ -50,9 +40,9 @@ function getWords($text) {
     }
     return $arr;
 }
-// слияние массивов слов
-// arr1 массив в который добавляют слова
-// arr2 массив для слияния
+// СЃР»РёВ¤РЅРёРµ РјР°СЃСЃРёРІРѕРІ СЃР»РѕРІ
+// arr1 РјР°СЃСЃРёРІ РІ РєРѕС‚РѕСЂС‹Р№ РґРѕР±Р°РІР»В¤СЋС‚ СЃР»РѕРІР°
+// arr2 РјР°СЃСЃРёРІ РґР»В¤ СЃР»РёВ¤РЅРёВ¤
 function mergeWords(& $arr1, $arr2) {
     foreach($arr2 as  $key => $value) {
         // check the presence of a word in the array

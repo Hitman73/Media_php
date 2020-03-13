@@ -1,5 +1,5 @@
-<?php
-    // ñîçäàíèå äèðåêòîðèè
+<?php	
+    // ÑÐ¾Ð·Ð´Ð°Ð½Ð¸Ðµ Ð´Ð¸Ñ€ÐµÐºÑ‚Ð¾Ñ€Ð¸Ð¸
     function create_dir($dir_name) {
         if (file_exists($dir_name)) {
             return FALSE;
@@ -11,24 +11,24 @@
         return TRUE;
     }
 
-    // ãåíåðàöèÿ èìåíè ôàéëà ðàñøèðåíèå "txt"
+    // Ð³ÐµÐ½ÐµÑ€Ð°Ñ†Ð¸Ñ Ð¸Ð¼ÐµÐ½Ð¸ Ñ„Ð°Ð¹Ð»Ð° Ñ€Ð°ÑÑˆÐ¸Ñ€ÐµÐ½Ð¸Ðµ "csv"
     function getNextFileName($dir_name, $file_name) {
-        // ïîëó÷èì ñïèñîê ôàéëîâ
-        $arr = glob($dir_name."/".$file_name."_[0-9]*.txt");
-        // åñëè ôàéëîâ íåò òî âåðíåì íà÷àëüíîå èìÿ ôàéëà
+        // Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ð¼ ÑÐ¿Ð¸ÑÐ¾Ðº Ñ„Ð°Ð¹Ð»Ð¾Ð²
+        $arr = glob($dir_name."/".$file_name."_[0-9]*.csv");
+        // ÐµÑÐ»Ð¸ Ñ„Ð°Ð¹Ð»Ð¾Ð² Ð½ÐµÑ‚ Ñ‚Ð¾ Ð²ÐµÑ€Ð½ÐµÐ¼ Ð½Ð°Ñ‡Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð¸Ð¼Ñ Ñ„Ð°Ð¹Ð»Ð°
         if (count($arr) == 0) {
-            return $file_name."_1.txt";
+            return $file_name."_1.csv";
         }
 
         $num = 1;
         foreach ($arr as $filename) {
-            // ïîëó÷èì ÷èñëî èç èìåíè ôàéëà
-            preg_match("/\d+$/", basename($filename, ".txt"), $words);
-            // íàéäåì íàéäîëüøåå ÷èñëî â èìåíè ôàéëà èç âñåãî ìàññèâà ôàéëîâ
+            // Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ð¼ Ñ‡Ð¸ÑÐ»Ð¾ Ð¸Ð· Ð¸Ð¼ÐµÐ½Ð¸ Ñ„Ð°Ð¹Ð»Ð°
+            preg_match("/\d+$/", basename($filename, ".csv"), $words);
+            // Ð½Ð°Ð¹Ð´ÐµÐ¼ Ð½Ð°Ð¹Ð´Ð¾Ð»ÑŒÑˆÐµÐµ Ñ‡Ð¸ÑÐ»Ð¾ Ð² Ð¸Ð¼ÐµÐ½Ð¸ Ñ„Ð°Ð¹Ð»Ð° Ð¸Ð· Ð²ÑÐµÐ³Ð¾ Ð¼Ð°ÑÑÐ¸Ð²Ð° Ñ„Ð°Ð¹Ð»Ð¾Ð²
             $num = ($words[0] > $num ) ? $words[0] : $num;
         }
 
         $num++;
-         return $file_name."_".$num.".txt";
+         return $file_name."_".$num.".csv";
     }
 ?>
